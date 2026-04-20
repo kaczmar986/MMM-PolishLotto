@@ -1,64 +1,74 @@
 Module.register("MMM-PolishLotto", {
-
   defaults: {
-    exampleContent: ""
+    api_key: "", // Set this in your config.js
+    updateInterval: 10 * 60 * 1000, // Every 10 minutes
+    gameTitle: "Mini Lotto"
   },
 
-  /**
-   * Apply the default styles.
-   */
   getStyles() {
-    return ["template.css"]
+    return ["MMM-PolishLotto.css"];
   },
 
-  /**
-   * Pseudo-constructor for our module. Initialize stuff here.
-   */
   start() {
-    this.templateContent = this.config.exampleContent
+    this.lottoData = null;
+    this.loaded = false;
 
-    // set timeout for next random text
-    setInterval(() => this.addRandomText(), 3000)
+    // Initial fetch
+    this.getLottoData();
+
+    // Set interval for updates
+    setInterval(() => {
+      this.getLottoData();
+    }, this.config.updateInterval);
   },
 
-  /**
-   * Handle notifications received by the node helper.
-   * So we can communicate between the node helper and the module.
-   *
-   * @param {string} notification - The notification identifier.
-   * @param {any} payload - The payload data`returned by the node helper.
-   */
+  getLottoData() {
+    this.sendSocketNotification("GET_LOTTO_RESULTS", this.config);
+  },
+
   socketNotificationReceived: function (notification, payload) {
-    if (notification === "EXAMPLE_NOTIFICATION") {
-      this.templateContent = `${this.config.exampleContent} ${payload.text}`
-      this.updateDom()
+    if (notification === "LOTTO_DATA_RESULT") {
+      // Assuming the API returns an array, we take the first result
+      this.lottoData = payload[0];
+      this.loaded = true;
+      this.updateDom();
     }
   },
 
-  /**
-   * Render the page we're on.
-   */
   getDom() {
-    const wrapper = document.createElement("div")
-    wrapper.innerHTML = `<b>Title</b><br />${this.templateContent}`
+    const wrapper = document.createElement("div");
+    wrapper.className = "lotto-wrapper";
 
-    return wrapper
-  },
-
-  addRandomText() {
-    this.sendSocketNotification("GET_RANDOM_TEXT", { amountCharacters: 15 })
-  },
-
-  /**
-   * This is the place to receive notifications from other modules or the system.
-   *
-   * @param {string} notification The notification ID, it is preferred that it prefixes your module name
-   * @param {number} payload the payload type.
-   */
-  notificationReceived(notification, payload) {
-    if (notification === "TEMPLATE_RANDOM_TEXT") {
-      this.templateContent = `${this.config.exampleContent} ${payload}`
-      this.updateDom()
+    if (!this.config.api_key) {
+      wrapper.innerHTML = "Please set API Key.";
+      return wrapper;
     }
+
+    if (!this.loaded) {
+      wrapper.innerHTML = "Loading Lotto results...";
+      return wrapper;
+    }
+
+    if (this.lottoData) {
+      // Example of displaying results:
+      // Adjust keys (results, drawDate) based on actual API response structure
+      const title = document.createElement("div");
+      title.className = "bold small";
+      title.innerHTML = `${this.config.gameTitle} - ${this.lottoData.drawDate || ""}`;
+
+      const results = document.createElement("div");
+      results.className = "bright medium";
+
+      // Join the winning numbers with a space or dash
+      const numbers = this.lottoData.results?.[0]?.numbers || [];
+      results.innerHTML = numbers.length > 0 ? numbers.join(" ") : "No results found";
+
+      wrapper.appendChild(title);
+      wrapper.appendChild(results);
+    } else {
+      wrapper.innerHTML = "No data available.";
+    }
+
+    return wrapper;
   }
-})
+});
