@@ -2,6 +2,12 @@
 
 *MMM-PolishLotto* is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that displays the latest draw results for the Polish National Lottery (Lotto), fetched directly from the official Totalizator Sportowy API.
 
+### Features
+* Fetches the most recent draw results via the official `developers.lotto.pl` API.
+* Displays the draw date and winning numbers.
+* Styles numbers in classic yellow "Lotto" balls.
+* **Legal & Safe:** Does not scrape HTML; uses the official OpenAPI channel.
+
 ## Screenshot
 
 ![Example of MMM-PolishLotto](./example_1.png)
@@ -29,6 +35,18 @@ git pull
 ## Configuration
 
 To use this module, you have to add a configuration object to the modules array in the `config/config.js` file.
+
+### Getting the API Key
+The API Key is free at the time of writing. To obtain a key, visit [developers.lotto.pl](https://developers.lotto.pl).
+
+Most likely, the site will guide you to send an email with your details to kontakt@lotto.pl. In your message, please provide:
+
+* Name & Surname
+* Email Address
+* Phone Number
+* Company Name (if relevant)
+
+Once approved, you will receive an API Key (sometimes referred to as a Token or Secret).
 
 ### Example configuration
 
