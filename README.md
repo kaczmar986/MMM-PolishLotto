@@ -35,26 +35,24 @@ To use this module, you have to add a configuration object to the modules array 
 Minimal configuration to use the module:
 
 ```js
-    {
-        module: 'MMM-PolishLotto',
-        position: 'lower_third',
-        config: {
-            api_key: 'XYZ'
-        }
-    },
+  {
+    module: "MMM-PolishLotto",
+    position: "top_right",
+    header: "Lotto PL",
+    config: {
+      // REQUIRED: Your API Key from developers.lotto.pl
+      apiKey: "YOUR_API_KEY_HERE",
+      gameType: "MiniLotto", // Options: 'MiniLotto', 'Lotto', 'EuroJackpot', 'LottoPlus', 'EkstraPensja', 'MultiMulti', 'Szybkie600', 'Keno', 'Kaskada'
+
+      // OPTIONAL Configuration
+      updateInterval: 6 * 60 * 60 * 1000, // Update every 6 hour
+      
+      // You can have the module check if your numbers were drawn
+      yourNumbers: [{"MiniLotto":[1,2,3,4,5,6]}] 
+    }
+  },
 ```
 
-Configuration with all options:
-
-```js
-    {
-        module: 'MMM-PolishLotto',
-        position: 'lower_third',
-        config: {
-            exampleContent: 'Welcome world'
-        }
-    },
-```
 
 ### Configuration options
 
@@ -81,3 +79,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) f
 ## Changelog
 
 All notable changes to this project will be documented in the [CHANGELOG.md](CHANGELOG.md) file.
+
+## Disclamier 
+This module is a fan-made project and is not affiliated with, endorsed by, or associated with Totalizator Sportowy Sp. z o.o. 
+"Lotto" is a registered trademark of Totalizator Sportowy.
+The data is retrieved from the public API provided by Totalizator Sportowy for informational purposes only.
+This module is not a gambling tool and does not allow purchasing tickets.
