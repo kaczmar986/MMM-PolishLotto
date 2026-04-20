@@ -9,8 +9,8 @@ module.exports = NodeHelper.create({
   },
 
   async getData() {
-    // Corrected parameter name from 'game' to 'gameType'
     const game = "MiniLotto";
+    // Fixed parameter to gameType based on your successful Postman test
     const urlApi = `https://developers.lotto.pl/api/open/v1/lotteries/draw-results/last-results-per-game?gameType=${game}`;
 
     try {

@@ -1,7 +1,7 @@
 Module.register("MMM-PolishLotto", {
   defaults: {
     api_key: "",
-    updateInterval: 10 * 60 * 1000,
+    updateInterval: 10 * 60 * 1000, // Default to 10 minutes
     gameTitle: "Mini Lotto"
   },
 
@@ -12,8 +12,11 @@ Module.register("MMM-PolishLotto", {
   start() {
     this.lottoData = null;
     this.loaded = false;
+
+    // Initial fetch
     this.getLottoData();
 
+    // Use the config value for the update interval
     setInterval(() => {
       this.getLottoData();
     }, this.config.updateInterval);
@@ -25,7 +28,7 @@ Module.register("MMM-PolishLotto", {
 
   socketNotificationReceived: function (notification, payload) {
     if (notification === "LOTTO_DATA_RESULT") {
-      // payload is an array, we want the first object
+      // payload is the array from your Postman test
       this.lottoData = payload[0];
       this.loaded = true;
       this.updateDom();
@@ -41,11 +44,11 @@ Module.register("MMM-PolishLotto", {
       return wrapper;
     }
 
-    if (this.lottoData) {
+    if (this.lottoData && this.lottoData.results && this.lottoData.results[0]) {
       const container = document.createElement("div");
 
-      // Date formatting (removes the T and Z from the timestamp)
-      const dateStr = this.lottoData.drawDate.split('T')[0];
+      // Format the date (e.g., 2026-04-19)
+      const dateStr = this.lottoData.drawDate ? this.lottoData.drawDate.split('T')[0] : "";
 
       const title = document.createElement("div");
       title.className = "small bright";
@@ -55,14 +58,15 @@ Module.register("MMM-PolishLotto", {
       const numbersWrapper = document.createElement("div");
       numbersWrapper.className = "medium bold bright";
 
-      // Accessing results[0].resultsJson based on your Postman output
-      const numbers = this.lottoData.results[0].resultsJson;
+      // Mapping to resultsJson from your Postman example
+      const numbers = this.lottoData.results[0].resultsJson || [];
       numbersWrapper.innerHTML = numbers.join("  ");
 
       container.appendChild(numbersWrapper);
       wrapper.appendChild(container);
     } else {
-      wrapper.innerHTML = "No data found";
+      wrapper.innerHTML = "No data available";
+      wrapper.className = "dimmed small";
     }
 
     return wrapper;
