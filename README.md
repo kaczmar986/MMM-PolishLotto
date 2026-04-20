@@ -75,7 +75,7 @@ Configuration with all options:
     subscribedGames: ['MiniLotto','Lotto'],
     myNumbers: {
       MiniLotto: [11, 12, 19, 21, 37],
-      Lotto: [1, 2, 3, 4, 5, 32, 6]
+      Lotto: [1, 2, 4, 5, 32, 36]
     },
   },
 },
@@ -86,7 +86,10 @@ Configuration with all options:
 
 Option|Possible values|Default|Description
 ------|------|------|-----------
-`exampleContent`|`string`|not available|The content to show on the page
+`api_key`|`string`|not available|Key obtained from [developers.lotto.pl]
+`updateInterval`|`integer`|`21600000` (6h)|Frequency (in milliseconds) for fetching new draw results.
+`subscribedGames`|`MiniLotto`, `Lotto`, `EuroJackpot`, `LottoPlus`, `EkstraPensja`, `MultiMulti`, `Szybkie600`, `Keno`, `Kaskada`|`Lotto`|List of games for which results will be displayed.
+`myNumbers`|`object`|`null`|User-defined numbers to be compared against draw results for automated matching
 
 ## Sending notifications to the module
 
