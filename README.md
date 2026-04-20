@@ -1,15 +1,10 @@
-# MMM-Template
-Use this template for creating new MagicMirror² modules.
+# MMM-PolishLotto
 
-See the [wiki page](https://github.com/Dennis-Rosenbaum/MMM-Template/wiki) for an in depth overview of how to get started.
-
-# MMM-Template
-
-*MMM-Template* is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that displays ... [Module description]
+*MMM-PolishLotto* is a module for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) that displays the latest draw results for the Polish National Lottery (Lotto), fetched directly from the official Totalizator Sportowy API.
 
 ## Screenshot
 
-![Example of MMM-Template](./example_1.png)
+![Example of MMM-PolishLotto](./example_1.png)
 
 ## Installation
 
@@ -19,7 +14,7 @@ In your terminal, go to the modules directory and clone the repository:
 
 ```bash
 cd ~/MagicMirror/modules
-git clone [GitHub url]
+git clone https://github.com/kaczmar986/MMM-PolishLotto
 ```
 
 ### Update
@@ -27,7 +22,7 @@ git clone [GitHub url]
 Go to the module directory and pull the latest changes:
 
 ```bash
-cd ~/MagicMirror/modules/MMM-Template
+cd ~/MagicMirror/modules/MMM-PolishLotto
 git pull
 ```
 
@@ -41,8 +36,11 @@ Minimal configuration to use the module:
 
 ```js
     {
-        module: 'MMM-Template',
-        position: 'lower_third'
+        module: 'MMM-PolishLotto',
+        position: 'lower_third',
+        config: {
+            api_key: 'XYZ'
+        }
     },
 ```
 
@@ -50,7 +48,7 @@ Configuration with all options:
 
 ```js
     {
-        module: 'MMM-Template',
+        module: 'MMM-PolishLotto',
         position: 'lower_third',
         config: {
             exampleContent: 'Welcome world'
