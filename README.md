@@ -56,6 +56,18 @@ Minimal configuration to use the module:
 {
   module: "MMM-PolishLotto",
   position: "bottom_left",
+  config: {
+    api_key: "YOUR_API_KEY_HERE",
+  },
+},
+```
+
+Configuration with all options:
+
+```js
+{
+  module: "MMM-PolishLotto",
+  position: "bottom_left",
   header: "Lotto PL",
   config: {
     api_key: "YOUR_API_KEY_HERE",
@@ -63,7 +75,7 @@ Minimal configuration to use the module:
     subscribedGames: ['MiniLotto','Lotto'],
     myNumbers: {
       MiniLotto: [11, 12, 19, 21, 37],
-      Lotto: [1, 6, 7, 13, 19, 69]
+      Lotto: [1, 2, 3, 4, 5, 32, 6]
     },
   },
 },
