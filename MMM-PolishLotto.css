@@ -1,3 +1,49 @@
-.MMM-PolishLotto div {
-  color: white;
+.lotto-container {
+  text-align: left;
+}
+
+.lotto-game-row {
+  margin-bottom: 15px;
+}
+
+.lotto-title {
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lotto-balls-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lotto-ball {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 50%;
+  background: #eeeeee;
+  color: #333;
+  font-weight: bold;
+  font-size: 14px;
+  border: 1px solid #ccc;
+}
+
+/* For EuroJackpot additional numbers */
+.lotto-ball.lotto-special {
+  background: #ffd700; /* Gold */
+  border-color: #b8860b;
+}
+
+/* Highlight for myNumbers */
+.lotto-ball.lotto-match {
+    background-color: #44ff44 !important;
+      color: #333 !important;
+      border: 1px solid #00cc00; /* Added '1px solid' so border-color actually shows */
+      box-shadow: 0 0 10px rgba(0, 204, 0, 0.5); /* Green glow to match border */
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Helps white text pop on bright green */
+    }
 }

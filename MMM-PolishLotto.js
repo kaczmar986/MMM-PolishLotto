@@ -1,74 +1,87 @@
 Module.register("MMM-PolishLotto", {
   defaults: {
     api_key: "",
-    updateInterval: 10 * 60 * 1000, // Default to 10 minutes
-    gameTitle: "Mini Lotto"
+    updateInterval: 6 * 60 * 60 * 1000,
+    subscribedGames: ['Lotto'],
+    myNumbers: {}
   },
 
   getStyles() {
-    return ["MMM-PolishLotto.css"];
+    return ["MMM-PolishLotto.css"]
   },
 
   start() {
-    this.lottoData = null;
-    this.loaded = false;
-
-    // Initial fetch
-    this.getLottoData();
-
-    // Use the config value for the update interval
-    setInterval(() => {
-      this.getLottoData();
-    }, this.config.updateInterval);
+    this.lottoResults = []
+    this.loaded = false
+    this.getLottoData()
+    setInterval(() => this.getLottoData(), this.config.updateInterval)
   },
 
   getLottoData() {
-    this.sendSocketNotification("GET_LOTTO_RESULTS", this.config);
+    this.sendSocketNotification("GET_LOTTO_RESULTS", this.config)
   },
 
-  socketNotificationReceived: function (notification, payload) {
+  socketNotificationReceived(notification, payload) {
     if (notification === "LOTTO_DATA_RESULT") {
-      // payload is the array from your Postman test
-      this.lottoData = payload[0];
-      this.loaded = true;
-      this.updateDom();
+      this.lottoResults = payload
+      this.loaded = true
+      this.updateDom()
     }
   },
 
   getDom() {
-    const wrapper = document.createElement("div");
+    const wrapper = document.createElement("div")
+    wrapper.className = "lotto-container"
 
     if (!this.loaded) {
-      wrapper.innerHTML = "Loading Mini Lotto...";
-      wrapper.className = "dimmed light small";
-      return wrapper;
+      wrapper.innerHTML = "Loading Lotto..."
+      return wrapper
     }
 
-    if (this.lottoData && this.lottoData.results && this.lottoData.results[0]) {
-      const container = document.createElement("div");
+    const filteredResults = this.lottoResults.filter((item) => {
+      if (!this.config.subscribedGames || this.config.subscribedGames.length === 0) return true
+      return this.config.subscribedGames.includes(item.gameType)
+    })
 
-      // Format the date (e.g., 2026-04-19)
-      const dateStr = this.lottoData.drawDate ? this.lottoData.drawDate.split('T')[0] : "";
+    filteredResults.forEach((gameDraw) => {
+      gameDraw.results.forEach((res) => {
+        const gameWrapper = document.createElement("div")
+        gameWrapper.className = "lotto-game-row"
 
-      const title = document.createElement("div");
-      title.className = "small bright";
-      title.innerHTML = `${this.config.gameTitle} (${dateStr})`;
-      container.appendChild(title);
+        const title = document.createElement("div")
+        const date = gameDraw.drawDate.split("T")[0]
+        title.className = "lotto-title small bright"
+        title.innerHTML = `${res.gameType} <span class="dimmed">(${date})</span>`
+        gameWrapper.appendChild(title)
 
-      const numbersWrapper = document.createElement("div");
-      numbersWrapper.className = "medium bold bright";
+        const ballsContainer = document.createElement("div")
+        ballsContainer.className = "lotto-balls-container"
 
-      // Mapping to resultsJson from your Postman example
-      const numbers = this.lottoData.results[0].resultsJson || [];
-      numbersWrapper.innerHTML = numbers.join("  ");
+        const mySelected = this.config.myNumbers[res.gameType] || []
 
-      container.appendChild(numbersWrapper);
-      wrapper.appendChild(container);
-    } else {
-      wrapper.innerHTML = "No data available";
-      wrapper.className = "dimmed small";
-    }
+        res.resultsJson.forEach((num) => {
+          const ball = document.createElement("span")
+          ball.className = "lotto-ball"
+          if (mySelected.includes(num)) ball.className += " lotto-match"
+          ball.innerHTML = num
+          ballsContainer.appendChild(ball)
+        })
 
-    return wrapper;
+        if (res.specialResults && res.specialResults.length > 0) {
+          res.specialResults.forEach((num) => {
+            const ball = document.createElement("span")
+            ball.className = "lotto-ball lotto-special"
+            if (mySelected.includes(num)) ball.className += " lotto-match"
+            ball.innerHTML = num
+            ballsContainer.appendChild(ball)
+          })
+        }
+
+        gameWrapper.appendChild(ballsContainer)
+        wrapper.appendChild(gameWrapper)
+      })
+    })
+
+    return wrapper
   }
-});
+})

@@ -1,6 +1,6 @@
 {
   "name": "mmm-polishlotto",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "[This is a module for the MagicMirror² smart mirror project. It displays the latest draw results for the Polish National Lottery (Lotto), fetched directly from the official Totalizator Sportowy API.]",
   "main": "MMM-PolishLotto.js",
   "scripts": {
@@ -15,7 +15,7 @@
   "keywords": [
     "template"
   ],
-  "author": "[Author]",
+  "author": "Tomasz Kaczmarczyk",
   "license": "MIT",
   "bugs": {
     "url": "[https://github.com/kaczmar986/MMM-PolishLotto]/issues"
