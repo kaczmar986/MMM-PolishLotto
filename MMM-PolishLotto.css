@@ -40,10 +40,9 @@
 
 /* Highlight for myNumbers */
 .lotto-ball.lotto-match {
-    background-color: #44ff44 !important;
-      color: #333 !important;
-      border: 1px solid #00cc00; /* Added '1px solid' so border-color actually shows */
-      box-shadow: 0 0 10px rgba(0, 204, 0, 0.5); /* Green glow to match border */
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Helps white text pop on bright green */
-    }
+  background-color: #44ff44 !important;
+  color: #333 !important;
+  border: 1px solid #00cc00; /* Added '1px solid' so border-color actually shows */
+  box-shadow: 0 0 10px rgba(0, 204, 0, 0.5); /* Green glow to match border */
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Helps white text pop on bright green */
 }
