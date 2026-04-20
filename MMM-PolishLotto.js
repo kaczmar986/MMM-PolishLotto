@@ -1,7 +1,7 @@
 Module.register("MMM-PolishLotto", {
   defaults: {
-    api_key: "", // Set this in your config.js
-    updateInterval: 10 * 60 * 1000, // Every 10 minutes
+    api_key: "",
+    updateInterval: 10 * 60 * 1000,
     gameTitle: "Mini Lotto"
   },
 
@@ -12,11 +12,8 @@ Module.register("MMM-PolishLotto", {
   start() {
     this.lottoData = null;
     this.loaded = false;
-
-    // Initial fetch
     this.getLottoData();
 
-    // Set interval for updates
     setInterval(() => {
       this.getLottoData();
     }, this.config.updateInterval);
@@ -28,7 +25,7 @@ Module.register("MMM-PolishLotto", {
 
   socketNotificationReceived: function (notification, payload) {
     if (notification === "LOTTO_DATA_RESULT") {
-      // Assuming the API returns an array, we take the first result
+      // payload is an array, we want the first object
       this.lottoData = payload[0];
       this.loaded = true;
       this.updateDom();
@@ -37,36 +34,35 @@ Module.register("MMM-PolishLotto", {
 
   getDom() {
     const wrapper = document.createElement("div");
-    wrapper.className = "lotto-wrapper";
-
-    if (!this.config.api_key) {
-      wrapper.innerHTML = "Please set API Key.";
-      return wrapper;
-    }
 
     if (!this.loaded) {
-      wrapper.innerHTML = "Loading Lotto results...";
+      wrapper.innerHTML = "Loading Mini Lotto...";
+      wrapper.className = "dimmed light small";
       return wrapper;
     }
 
     if (this.lottoData) {
-      // Example of displaying results:
-      // Adjust keys (results, drawDate) based on actual API response structure
+      const container = document.createElement("div");
+
+      // Date formatting (removes the T and Z from the timestamp)
+      const dateStr = this.lottoData.drawDate.split('T')[0];
+
       const title = document.createElement("div");
-      title.className = "bold small";
-      title.innerHTML = `${this.config.gameTitle} - ${this.lottoData.drawDate || ""}`;
+      title.className = "small bright";
+      title.innerHTML = `${this.config.gameTitle} (${dateStr})`;
+      container.appendChild(title);
 
-      const results = document.createElement("div");
-      results.className = "bright medium";
+      const numbersWrapper = document.createElement("div");
+      numbersWrapper.className = "medium bold bright";
 
-      // Join the winning numbers with a space or dash
-      const numbers = this.lottoData.results?.[0]?.numbers || [];
-      results.innerHTML = numbers.length > 0 ? numbers.join(" ") : "No results found";
+      // Accessing results[0].resultsJson based on your Postman output
+      const numbers = this.lottoData.results[0].resultsJson;
+      numbersWrapper.innerHTML = numbers.join("  ");
 
-      wrapper.appendChild(title);
-      wrapper.appendChild(results);
+      container.appendChild(numbersWrapper);
+      wrapper.appendChild(container);
     } else {
-      wrapper.innerHTML = "No data available.";
+      wrapper.innerHTML = "No data found";
     }
 
     return wrapper;

@@ -9,15 +9,16 @@ module.exports = NodeHelper.create({
   },
 
   async getData() {
+    // Corrected parameter name from 'game' to 'gameType'
     const game = "MiniLotto";
-    const urlApi = `https://developers.lotto.pl/api/open/v1/lotteries/draw-results/last-results-per-game?game=${game}`;
+    const urlApi = `https://developers.lotto.pl/api/open/v1/lotteries/draw-results/last-results-per-game?gameType=${game}`;
 
     try {
       const response = await fetch(urlApi, {
         method: "GET",
         headers: {
           "Accept": "application/json",
-          "Secret": this.config.api_key // Added the Secret key header here
+          "Secret": this.config.api_key
         }
       });
 
