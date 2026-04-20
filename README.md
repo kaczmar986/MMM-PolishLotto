@@ -59,7 +59,7 @@ Minimal configuration to use the module:
     header: "Lotto PL",
     config: {
       // REQUIRED: Your API Key from developers.lotto.pl
-      apiKey: "YOUR_API_KEY_HERE",
+      api_key: "YOUR_API_KEY_HERE",
       gameType: "MiniLotto", // Options: 'MiniLotto', 'Lotto', 'EuroJackpot', 'LottoPlus', 'EkstraPensja', 'MultiMulti', 'Szybkie600', 'Keno', 'Kaskada'
 
       // OPTIONAL Configuration
