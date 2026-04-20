@@ -53,22 +53,20 @@ Once approved, you will receive an API Key (sometimes referred to as a Token or 
 Minimal configuration to use the module:
 
 ```js
-  {
-    module: "MMM-PolishLotto",
-    position: "top_right",
-    header: "Lotto PL",
-    config: {
-      // REQUIRED: Your API Key from developers.lotto.pl
-      api_key: "YOUR_API_KEY_HERE",
-      gameType: "MiniLotto", // Options: 'MiniLotto', 'Lotto', 'EuroJackpot', 'LottoPlus', 'EkstraPensja', 'MultiMulti', 'Szybkie600', 'Keno', 'Kaskada'
-
-      // OPTIONAL Configuration
-      updateInterval: 6 * 60 * 60 * 1000, // Update every 6 hour
-      
-      // You can have the module check if your numbers were drawn
-      yourNumbers: [{"MiniLotto":[1,2,3,4,5,6]}] 
-    }
+{
+  module: "MMM-PolishLotto",
+  position: "bottom_left",
+  header: "Lotto PL",
+  config: {
+    api_key: "YOUR_API_KEY_HERE",
+    updateInterval: 6 * 60 * 60 * 1000, // Update every 6 hour
+    subscribedGames: ['MiniLotto','Lotto'],
+    myNumbers: {
+      MiniLotto: [11, 12, 19, 21, 37],
+      Lotto: [1, 6, 7, 13, 19, 69]
+    },
   },
+},
 ```
 
 
